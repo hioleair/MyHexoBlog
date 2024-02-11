@@ -8,7 +8,7 @@
       <link href="/posts/9c8710c7.html"/>
       <url>/posts/9c8710c7.html</url>
       
-        <content type="html"><![CDATA[<p>#什么是IS-IS协议<br>IS-IS英文全称是Intermediate System to Intermediate System，就是中间系统到中间系统，简单理解就是设备与设备的通信协议，这个协议最初是国际标准化组织ISO（the International Organization for Standardization）设计的一种动态路由协议。IS-IS协议和OSPF协议类似，也是采用最短路径优先SPF（Shortest Path First）算法进行路由计算，这算法后续的文章我会详细给大家解释是如何计算的，他的优点在于收敛速度快，拓展性强，运行在数据链路层，可以实现大规模网络的互通。</p>]]></content>
+        <content type="html"><![CDATA[<h1 id="什么是IS-IS协议"><a href="#什么是IS-IS协议" class="headerlink" title="什么是IS-IS协议"></a>什么是IS-IS协议</h1><p>IS-IS英文全称是Intermediate System to Intermediate System，就是中间系统到中间系统，简单理解就是设备与设备的通信协议，这个协议最初是国际标准化组织ISO（the International Organization for Standardization）设计的一种动态路由协议。IS-IS协议和OSPF协议类似，也是采用最短路径优先SPF（Shortest Path First）算法进行路由计算，这算法后续的文章我会详细给大家解释是如何计算的，他的优点在于收敛速度快，拓展性强，运行在数据链路层，可以实现大规模网络的互通。</p>]]></content>
       
       
       <categories>
