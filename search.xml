@@ -4,6 +4,37 @@
   
     
     <entry>
+      <title>IS-IS报文详解及邻居建立交互说明（二）</title>
+      <link href="/posts/5fe2c856.html"/>
+      <url>/posts/5fe2c856.html</url>
+      
+        <content type="html"><![CDATA[<h1 id="ISIS报文详情"><a href="#ISIS报文详情" class="headerlink" title="ISIS报文详情"></a>ISIS报文详情</h1>]]></content>
+      
+      
+      <categories>
+          
+          <category> 网络协议 </category>
+          
+          <category> isis </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> isis </tag>
+            
+            <tag> 网络协议 </tag>
+            
+            <tag> igp </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>如何在阿里云ECS为博客部署Waline评论系统</title>
       <link href="/posts/947d9dc4.html"/>
       <url>/posts/947d9dc4.html</url>
@@ -39,7 +70,7 @@
       <link href="/posts/9c8710c7.html"/>
       <url>/posts/9c8710c7.html</url>
       
-        <content type="html"><![CDATA[<h1 id="什么是IS-IS协议"><a href="#什么是IS-IS协议" class="headerlink" title="什么是IS-IS协议"></a>什么是IS-IS协议</h1><p>IS-IS英文全称是Intermediate System to Intermediate System，就是中间系统到中间系统，简单理解就是设备与设备的通信协议，这个协议最初是国际标准化组织ISO（the International Organization for Standardization）设计的一种动态路由协议。IS-IS协议和OSPF协议类似，也是采用最短路径优先SPF（Shortest Path First）算法进行路由计算，这算法后续的文章我会详细给大家解释是如何计算的，他的优点在于收敛速度快，拓展性强，运行在数据链路层，可以实现大规模网络的互通。</p>]]></content>
+        <content type="html"><![CDATA[<h1 id="什么是IS-IS协议"><a href="#什么是IS-IS协议" class="headerlink" title="什么是IS-IS协议"></a>什么是IS-IS协议</h1><p>IS-IS英文全称是Intermediate System to Intermediate System，就是中间系统到中间系统，简单理解就是设备与设备的通信协议，这个协议最初是国际标准化组织ISO（the International Organization for Standardization）设计的一种动态路由协议。IS-IS协议和OSPF协议类似，也是采用最短路径优先SPF（Shortest Path First）算法进行路由计算，这算法后续的文章我会详细给大家解释是如何计算的，他的优点在于收敛速度快，拓展性强，运行在数据链路层，可以实现大规模网络的互通。</p><h2 id="IS-IS协议报文如何交互"><a href="#IS-IS协议报文如何交互" class="headerlink" title="IS-IS协议报文如何交互"></a>IS-IS协议报文如何交互</h2><p>我们已经知道了ISIS（Intermediate System to Intermediate System）是一种用于路由协议的通信协议，现在我们简单了解一下其中的报文交互流程，其实所有的ISIS路由器之间都是通过相互交换彼此的报文信息以构建路由表和确保网络拓扑的稳定。</p><p>如下则是ISIS报文交互流程以及到路由计算所包括的步骤：<strong>邻居关系建立</strong>，<strong>链路状态数据库同步，最短路径计算</strong>。</p><p>了解了这些，我们就可以进一步看看，每一步ISIS协议都具体做了什么吧。</p><h3 id="邻居关系建立"><a href="#邻居关系建立" class="headerlink" title="邻居关系建立"></a>邻居关系建立</h3><p>ISIS路由器之间在物理连接建立后，会发送Hello消息以建立邻居关系。路由器会交换Hello消息来确认邻居关系的建立。<br>链路状态通告（Link State Advertisement，LSA）： 路由器会定期发送LSA消息，其中包含了路由器所知道的网络拓扑信息。这些信息包括链路状态、度量值等。</p><p>ISIS协议的邻居关系建立包括以下步骤：</p><p><strong>Hello消息交换：</strong> 路由器在特定的网络接口上定期发送Hello消息，用于宣告自己的存在，以及确定其他路由器的存在。当两个路由器在它们的Hello消息中发现对方时，它们可以开始建立邻居关系。</p><p><strong>参数协商：</strong> 一旦路由器在Hello消息中发现了对方，它们将交换信息以协商参数，例如Hello间隔、失效时间、路由器优先级等。这些参数的协商是为了确保双方对邻居关系的维护和改进有共识。</p><p><strong>邻居状态确认：</strong> 当协商完成并且双方都认可对方为邻居后，它们会互相确认邻居状态。这通常包括在Hello消息中标识对方为邻居，并等待对方的确认消息。</p><p>一旦以上步骤完成，ISIS路由器之间的邻居关系就建立起来了。这些邻居关系将用于后续的链路状态信息交换和路由计算，以构建网络的最佳路径。</p><h3 id="链路状态数据库同步"><a href="#链路状态数据库同步" class="headerlink" title="链路状态数据库同步"></a>链路状态数据库同步</h3><p>当路由器收到LSA消息后，会更新自己的链路状态数据库，并将其发给与之相邻的其他路由器，以确保每个路由器都有相同的网络拓扑信息。</p><p>LSA是什么呢，他就是ISIS的链路状态通告报文全称是（Link State Advertisement，LSA），这是ISIS协议中用于交换网络拓扑信息的报文。在ISIS协议中，每个路由器都维护着一个链路状态数据库（Link State Database，LSDB），其中存储着该路由器所知道的网络拓扑信息。每个LSA消息是用于描述某一部分拓扑信息的数据结构。当链路状态发生变化时，比如一个链路失效或重新恢复时，或者新路由器加入网络时，路由器会生成相应的LSA消息，并通过协议交换给邻居路由器。邻居路由器会将收到的LSA消息存储在自己的LSDB中，并以此更新自己的网络拓扑信息。</p><p>LSA消息的具体格式和字段取决于LSA的类型，每一种不同类型的LSA都有其用途和区别，常见的LSA类型包括：</p><p>LSP（Link State PDU）： LSP是ISIS协议中的基本LSA类型，用于描述一个ISIS路由器的链路状态信息。<br>SNP（Sequence Number PDU）： SNP是用于描述链路状态数据库同步的LSA类型，用于维护LSDB之间的一致性。<br>CSNP（Complete Sequence Number PDU）： CSNP是用于描述差异型数据库同步的LSA类型，用于在LSDB之间进行全量数据库同步。<br>通过链路状态通告，ISIS路由器之间可以交换和更新网络拓扑信息，从而建立最佳路径和路由表，以确保网络的正常运行。</p><p>链路状态数据库同步是指ISIS路由器之间进行网络拓扑信息的交换和更新，以确保每个路由器都有相同的链路状态数据库（Link State Database，LSDB）。</p><p>了解到LSA报文，我们再来看看，链路状态数据库同步的过程，如下就是报文交互过程：</p><p><strong>Hello消息交换：</strong> 在邻居关系建立后，路由器之间开始交换Hello消息，以确认相邻路由器的存在和状态。Hello消息中包含了一些参数，如Hello间隔和优先级。</p><p><strong>数据库描述（Database Description）交换：</strong> 一旦邻居关系建立，路由器之间开始交换数据库描述消息。这些消息包含了路由器所拥有的所有LSA（链路状态通告）的摘要信息，例如LSA的类型、序列号、有效期等。通过这些消息的交换，路由器可以了解其他路由器的链路状态信息。</p><p><strong>LSA请求与回复：</strong> 当一个路由器发现自己缺少某个LSA时，它会向邻居路由器发送一个LSA请求消息，请求对应的LSA。邻居路由器将检查自己的LSDB，并根据请求提供相应的LSA回复消息。这样，缺失的LSA将被补充到请求的路由器的LSDB中。</p><p><strong>LSA更新：</strong> 如果收到的LSA具有比本地LSDB中相同LSA更高的序列号或更高的优先级，则该LSA将被接受并更新到LSDB中。否则，它将被忽略。</p><p>通过以上过程，ISIS路由器之间可以同步各自的LSDB，确保每个路由器都具有相同的网络拓扑信息。这样，每个路由器都能基于相同的拓扑信息进行路由计算，建立最佳路径，并更新自己的路由表。这有助于保持网络的稳定性和一致性。</p><h3 id="最短路径计算"><a href="#最短路径计算" class="headerlink" title="最短路径计算"></a>最短路径计算</h3><p>ISIS学习到了各个路由设备的链路状态信息以后，会使用链路状态数据库中的信息，每个路由器的数据链路状态信息都是一致的，同时他们也都会计算最短路径树，并构建自己的路由表。</p><p>在协议中，我们已经了解到了路由器是如何使用从链路状态通告（LSA）消息中收到的拓扑信息来计算最短路径树，现在我们再看看ISIS协议中，最短路径计算的过程如下：</p><p><strong>构建拓扑图：</strong> 路由器获取链路状态数据库（LSDB）中保存的拓扑信息，使用这些信息构建网络的拓扑图。</p><p><strong>Dijkstra算法计算最短路径：</strong> 路由器使用Dijkstra算法在拓扑图中计算最短路径。该算法通过在网络中逐步扩展到达各节点的候选最短路径来逐步计算最短路径。</p><p><strong>生成最短路径树</strong>： 基于Dijkstra算法的计算结果，路由器生成一个最短路径树，该树描述了到达网络中其他节点的最短路径。</p><p><strong>更新路由表：</strong> 路由器使用最短路径树信息来更新自己的路由表，这样路由器就能为到达目的网络选择最佳的下一跳路由。</p><p>通过这个最短路径计算过程，ISIS路由器能够根据最新的拓扑信息计算出网络中各节点的最佳路径，从而帮助路由器进行有效的数据转发和路由选择。</p><h2 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h2><p>本篇是从宏观上简单解释了一下ISIS协议的定义和报文交互流程，带大家简单了解了ISIS报文交互流程以及到路由计算所包括的步骤，一共就是三步，邻居关系建立，链路状态数据库同步，最短路径计算。随后的文章里面，我们会继续更加深入解析ISIS报文具体每个字段和计算过程的含义和用途，同时会基于c语言代码教大家如何实现最短路径算法并且输出计算结果。本篇文章就到这里了，感谢大家的观看，如果又帮助到你，可以收藏我的博客，不定期更新网络知识的技术文章。</p>]]></content>
       
       
       <categories>
